@@ -1,0 +1,20 @@
+---
+title: "Regression Analysis"
+output: html_notebook
+---
+
+In this project, we will be using **Regression backward selection** for our analysis. The label for our data will be the rating.
+
+```{r}
+## first the imports
+library(tidyverse)
+library(broom)
+library(GGally)
+```
+
+We need to first check to see if there's actually a linear relationship between the feature and labels.
+
+```{r}
+performance <- read_csv('../data/performance.csv')
+glimpse(performance)
+```
