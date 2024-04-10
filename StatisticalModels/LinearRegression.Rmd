@@ -17,4 +17,44 @@ We need to first check to see if there's actually a linear relationship between 
 ```{r}
 performance <- read_csv('../data/performance.csv')
 glimpse(performance)
+## using ggpairs to check the relationships
+ggpairs(performance)
+```
+
+And we do actually see some linearity in the plots with overall_rating.
+
+We will use the t-statistic to decide which variables are not as useful for our model and can be discarded. We will keep on this process until we have a t-statistic of \< 1.
+
+```{r}
+## for our linear model
+## we have to first pass in the variable
+## that we'd like our model to explain
+## and then use . trick to have it use
+## the rest of the columns as the input features
+model <- lm(overall_rating ~ .,
+            data = performance)
+## and we can look at the summary of our model
+summary(model)
+```
+
+Given the above summary, at the first glance we can say that given the high t-values and low probability for "handles_employee_complaints" and "space_for_learning", these two features are the most useful ones in our model. Considering the current values, the first feature that we will remove is the "not_overly_critical".
+
+```{r}
+## for our new model
+## we can simply update the previous one
+## the following way
+## by using - not_overly_critical 
+## from the right side
+model_1 <- update(model,
+                  . ~ . - not_overly_critical)
+summary(model_1)
+```
+
+Given the updated model, now the next feature that could be removed is the "raises_for_performance", where we have the lowest t-value.
+
+```{r}
+## so we will be uodating our model once again
+model_2 <- update(model_1,
+                  . ~ . - raises_for_performance)
+summary(model_2)
 ```
