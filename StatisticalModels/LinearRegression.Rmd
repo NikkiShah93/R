@@ -58,3 +58,13 @@ model_2 <- update(model_1,
                   . ~ . - raises_for_performance)
 summary(model_2)
 ```
+
+The next feature that can be removed is the "no_special_privileges", which has the highest absolute t-value in our remaining features.
+
+```{r}
+model_3 <- update(model_2,
+                  . ~ . - no_special_privileges)
+summary(model_3)
+```
+
+Now, all of absolute t-values are above 1, and we can stop removing features at this point.
