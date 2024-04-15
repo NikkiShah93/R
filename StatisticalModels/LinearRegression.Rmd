@@ -59,7 +59,7 @@ model_2 <- update(model_1,
 summary(model_2)
 ```
 
-The next feature that can be removed is the "no_special_privileges", which has the highest absolute t-value in our remaining features.
+The next feature that can be removed is the "no_special_privileges", which has the lowest absolute t-value in our remaining features.
 
 ```{r}
 model_3 <- update(model_2,
@@ -67,4 +67,25 @@ model_3 <- update(model_2,
 summary(model_3)
 ```
 
-Now, all of absolute t-values are above 1, and we can stop removing features at this point.
+Now, all of absolute t-values are above 1, and we can stop removing features at this point. The probability of getting the same results even after removing "rate_of_advancement" is still very high, but in order to avoid over-fitting, we will keep that feature for any future data that we might want to analyze.
+
+We will move forward to create our residual plot, using the broom package.
+
+```{r}
+## first creating an augmented set
+## using our last model
+## which will contain the predictions
+## as well as the residual values
+performance_aug <- augment(model_3)
+glimpse(performance_aug)
+```
+
+And then plotting our predictions as well as the residuals to make sure there's no specific pattern in the distribution of the residuals, which will show that the linear model is working as expected.
+
+```{r}
+## the residual plot using ggplot scatter
+ggplot(performance_aug, aes(x = .fitted, y = .resid, color=.resid)) + 
+  geom_point() +
+  labs(x='Prediction', y='Residual') +
+  geom_hline(yintercept = 0)
+```
