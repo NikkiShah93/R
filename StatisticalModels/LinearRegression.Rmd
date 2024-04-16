@@ -89,3 +89,15 @@ ggplot(performance_aug, aes(x = .fitted, y = .resid, color=.resid)) +
   labs(x='Prediction', y='Residual') +
   geom_hline(yintercept = 0)
 ```
+
+The last step is to compare the AIC for our models, and it's a better measure compared to $r^2$, primarily, because it gets worse by adding additional features that don't improve the model and are mainly noise, as opposed to the $r^2$, which improves with additional features, regardless of their true value.
+
+```{r}
+## first making a listof all models
+model_list <- list(model, model_1,
+                   model_2, model_3)
+## and then apply the AIC
+lapply(model_list, extractAIC)
+```
+
+As we can see, the AIC is going down with each iteration, which shows improvement in the performance of our model, even though we're removing data.
