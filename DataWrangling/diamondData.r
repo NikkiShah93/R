@@ -32,6 +32,16 @@ ideal_diamonds <- ideal_diamonds %>%
   arrange(price, desc(carat))
 glimpse(ideal_diamonds)
 
+## maybe converting carats to grams
+## would be helpful for our analysis as well
+## also, having price per carat could be helpful
+ideal_diamonds <- ideal_diamonds %>% 
+  mutate(grams=carat * .20,
+         price_per_carat = round(price/carat, 2),
+         color = tolower(color),
+         depth_above_average = depth > mean(ideal_diamonds$depth))
+glimpse(ideal_diamonds)
+
 ## let's group them by clarity and get the average price
 avg_price_ideal_diamonds <- ideal_diamonds %>% 
   group_by(clarity) %>% 
