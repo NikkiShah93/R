@@ -41,6 +41,25 @@ ideal_diamonds <- ideal_diamonds %>%
          color = tolower(color),
          depth_above_average = depth > mean(ideal_diamonds$depth))
 glimpse(ideal_diamonds)
+?slice
+## getting the cheapest ideal diamond
+## wit the highest carat
+slice_head(ideal_diamonds)
+## getting the most expensive ideal diamond
+## with the lowest carat
+slice_tail(ideal_diamonds)
+## getting a sample of 10%
+slice_sample(ideal_diamonds, prop = 0.1)
+
+## getting the average price and weights
+## (in grams) for each color
+summarized_ideal_diamond <- ideal_diamonds %>% 
+  group_by(color) %>% 
+  summarise(average_price= mean(price),
+            average_weight = mean(grams),
+            counts = n())
+
+glimpse(summarized_ideal_diamond)
 
 ## let's group them by clarity and get the average price
 avg_price_ideal_diamonds <- ideal_diamonds %>% 
